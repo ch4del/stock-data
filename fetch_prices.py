@@ -15,7 +15,10 @@ PERIOD = "1y"
 
 
 def parse_symbol_file(text, sym_col):
-    df = pd.read_csv(io.StringIO(text), sep="|", dtype=str)
+
+    
+    df = pd.read_csv(io.StringIO(text), sep="|", dtype=str, keep_default_na=False)
+    
     df = df[~df[sym_col].fillna("").str.startswith("File Creation Time")]
     df = df[(df["ETF"] == "N") & (df["Test Issue"] == "N")]
     df = df[~df["Security Name"].str.contains(EXCLUDE, case=False, regex=True, na=False)]
